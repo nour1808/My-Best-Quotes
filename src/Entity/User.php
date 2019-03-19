@@ -26,4 +26,13 @@ class User extends BaseUser
     {
         parent::__construct();
     }
+
+    public function setUsername($email){
+        $this->username = $this->email;
+    }
+
+    public function getUsername(){
+         return $this->email;
+    }
+
 }
