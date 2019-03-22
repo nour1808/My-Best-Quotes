@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% block title %}Editing your account
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="bg-light py-3 px-3">
+                    <h1 class="my-5">Editing your account</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="alert alert-light">
+                                <h2 class="alert-heading">General informations</h2>
+                                <hr>
+                                    {{ form_start(form) }}
+                                    {{ form_row(form.firstName) }}
+                                    {{ form_row(form.lastName) }}
+                                    {{ form_row(form.email) }}
+                                    {{ form_row(form.picture) }}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="alert alert-light">
+                                    <h2 class="alert-heading">Details</h2>
+                                    <hr>
+                                        {{ form_row(form.gender) }}
+                                        <hr>
+                                            <button class="btn btn-success" type="submit">
+                                                <i class="fas fa-save"></i>Save Changes
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}
+        

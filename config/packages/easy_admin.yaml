@@ -1,0 +1,72 @@
+easy_admin:
+    formats:
+        date:     'd/m/Y'
+        time:     'H:i'
+        datetime: 'd/m/Y'
+
+    site_name: 'MYQUOTE ADMIN'
+    user:
+        name_property_path: 'fullname'
+        avatar_property_path: 'picture'
+
+    design:
+        brand_color: 'rgba(26, 188, 156, 0.85)'
+        #brand_color: 'hsl(0, 100%%, 50%%);'
+
+    entities:
+        #- App\Entity\Quote
+        #- App\Entity\User
+        Quote:
+            class: App\Entity\Quote
+            label: 'Quotes'
+            help: 'Global quotes displayed in all views'            
+            list:
+                title: '%%entity_label%% listing'
+                fields: 
+                    - { property: 'id',  label: 'ID' }
+                    - { property: 'title',  label: 'Title' }
+                    - { property: 'content',  label: 'Content' }
+                    - { property: 'author',  label: 'Author' }
+                    - { property: 'user',  label: 'User' }
+                    - { property: 'daily',  label: 'Daily' }
+                    - { property: 'createdAt', type_options: { widget: 'single_text' } }
+                max_results: 20
+
+                        
+        User:
+            class: App\Entity\User
+            label: 'Users'
+            help: 'Global users displayed in all views'  
+            list:
+                title: '%%entity_label%% listing' 
+                fields: 
+                    - { property: 'id',  label: 'ID' }
+                    - { property: 'fullname',  label: 'Fullname' }
+                    - { property: 'email',  label: 'Email' }
+                    - { property: 'gender',  label: 'Gender' }
+                    - { property: 'picture',  type: 'image' }
+                    - { property: 'quotes',  label: 'Quotes' }
+                max_results: 20
+                    
+            new:
+                fields:
+                    - { property: 'firstname',  label: 'First name' , type: 'text' }
+                    - { property: 'lastname',  label: 'Last name' , type: 'text' }
+                    - { property: 'gender',  label: 'Gender',  type: 'choice', type_options: { multiple: false, choices: { 'Male': 'male', 'Female': 'female' } } }
+                    - { property: 'email',  label: 'Email' }
+                    - { property: 'picture', label: 'image' }
+                    - { property: 'hash', type: 'password', type_options: { required: false } }
+                    - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
+
+
+            edit:
+                fields:
+                    - { property: 'firstname',  label: 'First name' , type: 'text' }
+                    - { property: 'lastname',  label: 'Last name' , type: 'text' }
+                    - { property: 'email',  label: 'Email' }
+                    - { property: 'gender',  label: 'Gender',  type: 'choice', type_options: { multiple: false, choices: { 'male': 'male', 'female': 'female' } } }
+                    - { property: 'picture',  label: 'image' }
+                    - { property: 'quotes',  label: 'Quotes' }  
+                    - { property: 'hash', type: 'password', type_options: { required: false } }
+                    - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
+             

@@ -1,0 +1,17 @@
+<div class="post" style="max-width:70%; margin: 50px auto;">
+    <div id="quote-content">
+        {{ quote.content|raw }}
+    </div>
+    <div class="author">
+        <span id="quote-title-dash">—</span>
+        <span id="quote-title">
+            {{ quote.title }}
+        </span>
+        {% if quote.source is defined %}
+            <span id="quote-source">Source:
+                {{ quote.source|raw }}
+            </span>
+            <br>
+            {% endif %}
+        </div>
+    </div>

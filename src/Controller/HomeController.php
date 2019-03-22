@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
+
+
     /**
      * @Route("/", name="home_index")
      */
@@ -24,8 +26,9 @@ class HomeController extends AbstractController
         $data = $response->getBody();
         $data = json_decode($data);
 
-        //dump($data[0]);
+        //var_dump($userManager);
         //die;
+
         return $this->render(
             'home/index.html.twig',
             [
