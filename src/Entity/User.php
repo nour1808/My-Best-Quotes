@@ -2,14 +2,18 @@
 
 namespace App\Entity;
 
+use DateTime;
+use DateTimeInterface;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
+
+use Symfony\Component\HttpFoundation\File\File;
+
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\User\UserInterface;
-
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
@@ -21,6 +25,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     fields={"email"},
  *     message="Another user already has this email thank you for editing"
  * )
+ * @Vich\Uploadable
  */
 class User implements UserInterface
 {
@@ -56,11 +61,20 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Url(
-     *      message = "Enter a valid avatar url."
-     * )
      */
     private $picture;
+
+     /**
+     * @Vich\UploadableField(mapping="user_images", fileNameProperty="picture")
+     * @var File
+     */
+    private $pictureFile;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
+
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -100,7 +114,7 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->userRoles = new ArrayCollection();
+        $this->updatedAt = new DateTime();
     }
 
     public function getId(): ? int
@@ -158,21 +172,22 @@ class User implements UserInterface
 
     public function getHash(): ? string
     {
+        //die("getHash : ".$this->hash);
         return $this->hash;
     }
 
-    public function setHash(string $hash): self
+    public function setHash($hash): self
     {
-        /*$this->hash = $hash;
-
-        return $this;*/
-
-        global $kernel;
-        if (method_exists($kernel, 'getKernel'))
-            $kernel = $kernel->getKernel();
-
-        $this->password = $kernel->getContainer()->get('security.password_encoder')->encodePassword($this, $hash);
+        //die("setHash : ".$hash);
+        if ($hash  !== NULL){
+            //die($hash);
+            $this->hash=$hash;
+        }else{
+            return $this;
+        }
+        
         return $this;
+
     }
 
     public function getPasswordConfirm(): ? string
@@ -325,5 +340,33 @@ class User implements UserInterface
     public function __toString()
     {
         return $this->getEmail();
+    }
+
+
+    public function setPictureFile(File $image = null)
+    {
+        $this->pictureFile = $image;
+
+        if ($image) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getPictureFile()
+    {
+        return $this->pictureFile;
+    }
+
+    public function getUpdateAt(): ? \DateTimeInterface
+    {
+        return $this->updateAt;
+    }
+
+    public function setUpdateAt(\DateTimeInterface $UpdateAt): self
+    {
+        $this->updatedAt = $UpdateAt;
+
+        return $this;
     }
 }

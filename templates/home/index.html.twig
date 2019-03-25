@@ -13,9 +13,13 @@
                 <span id="quote-source">Source:
                     {{ data.custom_meta.Source|raw }}
                 </span>
-                <br>
-                    <a href="#" id="twitter">Tweet</a>
+                
+                    
                 </p>
             {% endif %}
+            <br>
+            {% if app.user %}
+            <p style="margin:0 auto;text-align:center"><a class="btn btn-success" href="{{path('home_saveQuote')}}">Save this quote</a></p>
+        {% endif %}
         </div>
     {% endblock %}

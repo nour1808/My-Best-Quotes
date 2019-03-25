@@ -18,11 +18,6 @@ class Quote
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $content;
@@ -44,11 +39,6 @@ class Quote
     private $user;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $daily;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $author;
@@ -64,22 +54,11 @@ class Quote
         $this->createdAt = new DateTime();
     }
 
-    public function getTitle(): ? string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
     public function getContent(): ? string
     {
         return $this->content;
     }
+
 
     public function setContent(string $content): self
     {
@@ -124,17 +103,7 @@ class Quote
         return $this;
     }
 
-    public function getDaily(): ? bool
-    {
-        return $this->daily;
-    }
-
-    public function setDaily(? bool $daily): self
-    {
-        $this->daily = $daily;
-
-        return $this;
-    }
+    
 
     public function getAuthor(): ? string
     {
@@ -151,7 +120,7 @@ class Quote
 
     public function __toString()
     {
-        return $this->getTitle();
+        return $this->getAuthor();
     }
 }
 

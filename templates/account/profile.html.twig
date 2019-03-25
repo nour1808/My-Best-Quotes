@@ -2,39 +2,36 @@
 {% block title %}Editing your account
 {% endblock %}
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="bg-light py-3 px-3">
-                    <h1 class="my-5">Editing your account</h1>
-                    <div class="row">
-                        <div class="col">
-                            <div class="alert alert-light">
-                                <h2 class="alert-heading">General informations</h2>
+<div class="container" style="margin:0 auto;">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <header class="card-header">
+                        <h4 class="card-title mt-2">Editing your account</h4>
+                    </header>
+                    <article class="card-body">
+    
+                        <div class="form-row">
+                            <div class="col form-group">
+                                 {{ form_start(form) }} {{ form_row(form.firstName) }} {{ form_row(form.lastName) }} {{ form_row(form.email) }} {{ form_row(form.picture) }} {{ form_row(form.gender) }}
                                 <hr>
-                                    {{ form_start(form) }}
-                                    {{ form_row(form.firstName) }}
-                                    {{ form_row(form.lastName) }}
-                                    {{ form_row(form.email) }}
-                                    {{ form_row(form.picture) }}
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="alert alert-light">
-                                    <h2 class="alert-heading">Details</h2>
-                                    <hr>
-                                        {{ form_row(form.gender) }}
-                                        <hr>
-                                            <button class="btn btn-success" type="submit">
-                                                <i class="fas fa-save"></i>Save Changes
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                <button class="btn btn-success" type="submit">
+                                    <i class="fas fa-save"></i>Save Changes
+                                </button>
                                 {{ form_end(form) }}
                             </div>
                         </div>
-                    </div>
+                    </article>
+    
                 </div>
-            {% endblock %}
+                <!-- card.// -->
+            </div>
+            <!-- col.//-->
+    
+        </div>
+        <!-- row.//-->
+    
+    </div>                 
+    
+{% endblock %}
         

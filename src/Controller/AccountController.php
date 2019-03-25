@@ -56,7 +56,7 @@ class AccountController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "Votre compte a bien été créé, vous pouvez maitenant vous connecter."
+                "Your account has been created, you can now sign in."
             );
 
             return $this->redirectToRoute('account_login');
@@ -86,7 +86,7 @@ class AccountController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "Votre profile a bien été modifié"
+                "Your profile has been modified"
             );
 
             return $this->redirectToRoute('account_profile');
@@ -115,7 +115,7 @@ class AccountController extends AbstractController
 
             // 1. Verifier si le oldpassword du form est identitque que celui de user
             if (!password_verify($passwordUpdate->getOldPassword(), $user->getHash())) {
-                $form->get('oldPassword')->addError(new FormError("Le mot de passe que vous avez tappé n'est pas votre mot de passe actuel."));
+                $form->get('oldPassword')->addError(new FormError("The password you typed is not your current password."));
             } else {
 
                 $newPassword = $passwordUpdate->getNewPassword();
@@ -126,7 +126,7 @@ class AccountController extends AbstractController
 
                 $this->addFlash(
                     'success',
-                    "Votre profile a bien été modifié"
+                    "Your profile has been modified"
                 );
                 return $this->redirectToRoute('account_profile');
             }
@@ -147,4 +147,6 @@ class AccountController extends AbstractController
             'user' => $this->getUser()
         ]);
     }
+
+    
 }

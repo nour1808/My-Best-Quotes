@@ -6,6 +6,7 @@ use Faker\Factory;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\Quote;
+use GuzzleHttp\Client;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -41,7 +42,7 @@ class AppFixtures extends Fixture
 
         $users[] = $adminUser;
         //Gestion des users
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 2; $i++) {
             $user = new User();
             $genre = $faker->randomElement($genres);
             $picture = "https://randomuser.me/api/portraits/";
@@ -67,12 +68,26 @@ class AppFixtures extends Fixture
 
 
         //Gestion des Quotes  
-        for ($j = 0; $j < 250; $j++) {
+        for ($j = 0; $j < 10; $j++) {
+
+            $API = "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=3";
+            $API2 = "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand";
+    
+            $client = new Client([
+                'headers' => ['Content-type' => 'application/json', 'Accept' => 'application/json']
+            ]);
+    
+            $response = $client->request('GET', $API2);
+            $data = $response->getBody();
+            $data = json_decode($data);
+            $data = $data[0];
+            $source = (isset($data->custom_meta)) ? $source = $data->custom_meta->Source : null;
+
             $quote = new Quote();
-            $title = $faker->sentence();
-            $content = $faker->paragraph(mt_rand(1, 3));
-            $source = $faker->url;
-            $authorQuote = $faker->firstName . ' ' . $faker->lastName;
+            $title = $data->title;
+            $content = $data->content;
+            $source = $source;
+            $authorQuote = $data->title;
             $userQuote = $users[mt_rand(0, count($users) - 1)];
 
             $quote->setTitle($title)

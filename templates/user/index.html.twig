@@ -19,8 +19,7 @@
                                 <a href="{{ path('account_profile') }}" class="btn btn-primary mr-2 mb-2">Edit my information
                                 </a>
                                 <a href="{{ path('account_password') }}" class="btn btn-primary mb-2">Change my password</a>
-                                <a href="{{ path('account_password') }}" class="btn btn-success mb-2">View all my quotes</a>
-                                <a href="{{ path('account_logout') }}" class="btn btn-secondary mb-2">Logout</a>
+                                <a href="{{ path('account_index') }}" class="btn btn-success mb-2">View all my quotes</a>
                             </div>
                         {% endif %}
                     </div>
@@ -31,7 +30,7 @@
                     </h2>
                     {% if user.quotes | length > 0 %}
                         <div class="row">
-                            {% for quote in user.quotes %}
+                            {% for quote in user.quotes|sort|reverse %}
                                 {% include "quote/_quote.html.twig" %}
                             {% endfor %}
                         </div>

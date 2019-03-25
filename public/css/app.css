@@ -292,3 +292,7 @@ h1 .bigger {
   padding-top: 10px;
   padding-right: 2rem !important;
 }
+
+.container{
+  margin-bottom: 50px !important;
+}

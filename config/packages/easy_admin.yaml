@@ -14,8 +14,14 @@ easy_admin:
         #brand_color: 'hsl(0, 100%%, 50%%);'
 
     entities:
-        #- App\Entity\Quote
-        #- App\Entity\User
+        Role:
+            class: App\Entity\Role
+            label: 'Roles'        
+            edit:
+                fields:
+                    - { property: 'users' }
+                    - { property: 'title', type: 'choice', type_options: {  choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
+             
         Quote:
             class: App\Entity\Quote
             label: 'Quotes'
@@ -24,11 +30,9 @@ easy_admin:
                 title: '%%entity_label%% listing'
                 fields: 
                     - { property: 'id',  label: 'ID' }
-                    - { property: 'title',  label: 'Title' }
                     - { property: 'content',  label: 'Content' }
                     - { property: 'author',  label: 'Author' }
                     - { property: 'user',  label: 'User' }
-                    - { property: 'daily',  label: 'Daily' }
                     - { property: 'createdAt', type_options: { widget: 'single_text' } }
                 max_results: 20
 
@@ -44,7 +48,7 @@ easy_admin:
                     - { property: 'fullname',  label: 'Fullname' }
                     - { property: 'email',  label: 'Email' }
                     - { property: 'gender',  label: 'Gender' }
-                    - { property: 'picture',  type: 'image' }
+                    - { property: 'picture', type: 'image', base_path: '%app.path.user_images%' }
                     - { property: 'quotes',  label: 'Quotes' }
                 max_results: 20
                     
@@ -54,9 +58,9 @@ easy_admin:
                     - { property: 'lastname',  label: 'Last name' , type: 'text' }
                     - { property: 'gender',  label: 'Gender',  type: 'choice', type_options: { multiple: false, choices: { 'Male': 'male', 'Female': 'female' } } }
                     - { property: 'email',  label: 'Email' }
-                    - { property: 'picture', label: 'image' }
-                    - { property: 'hash', type: 'password', type_options: { required: false } }
-                    - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
+                    - { property: 'pictureFile', type: 'vich_image' }
+                    - { property: 'hash', type: 'password', type_options: { required: true } }
+                    - { property: 'roles', type: 'choice', type_options: { disabled: true, multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
 
 
             edit:
@@ -65,8 +69,8 @@ easy_admin:
                     - { property: 'lastname',  label: 'Last name' , type: 'text' }
                     - { property: 'email',  label: 'Email' }
                     - { property: 'gender',  label: 'Gender',  type: 'choice', type_options: { multiple: false, choices: { 'male': 'male', 'female': 'female' } } }
-                    - { property: 'picture',  label: 'image' }
-                    - { property: 'quotes',  label: 'Quotes' }  
+                    - { property: 'pictureFile', type: 'vich_image' }
+                    - { property: 'quotes',  label: 'Quotes' ,type_options: { disabled: true } }  
                     - { property: 'hash', type: 'password', type_options: { required: false } }
-                    - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
+                    - { property: 'roles', type: 'choice', type_options: { disabled: true, multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
              
