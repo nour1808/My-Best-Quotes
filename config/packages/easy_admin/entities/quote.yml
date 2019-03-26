@@ -1,0 +1,26 @@
+easy_admin:
+    entities:
+        Quote:
+            class: App\Entity\Quote
+            list:
+                actions: ['new','show','edit','delete']
+                title: '%%entity_label%% listing'
+                sort: ['id', 'DESC']
+                fields: 
+                    - { property: 'id',  label: 'ID' }
+                    - { property: 'content',  label: 'Content' }
+                    - { property: 'author',  label: 'Author' }
+                    - { property: 'user',  label: 'User' }
+                    - { property: 'createdAt', type_options: { widget: 'single_text' } }           
+            show:
+                fields: 
+                    - { property: 'id',  label: 'ID' }
+                    - { property: 'content',  label: 'Content' }
+                    - { property: 'author',  label: 'Author' }
+                    - { property: 'user',  label: 'User' }
+            form:
+                fields: 
+                    - { property: 'id',  label: 'ID' }
+                    - { property: 'content',  label: 'Content' }
+                    - { property: 'author',  label: 'Author' }
+                    - { property: 'user',  label: 'User' }

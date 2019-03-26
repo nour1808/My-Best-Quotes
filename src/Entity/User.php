@@ -3,16 +3,18 @@
 namespace App\Entity;
 
 use DateTime;
+use Serializable;
+use App\Entity\Role;
 use DateTimeInterface;
 use Cocur\Slugify\Slugify;
+
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
-
 use Symfony\Component\HttpFoundation\File\File;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -27,7 +29,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * )
  * @Vich\Uploadable
  */
-class User implements UserInterface
+class User implements UserInterface, Serializable
 {
     /**
      * @ORM\Id()
@@ -64,8 +66,14 @@ class User implements UserInterface
      */
     private $picture;
 
-     /**
+    /**
      * @Vich\UploadableField(mapping="user_images", fileNameProperty="picture")
+     * @Assert\File(
+    *     maxSize = "5M",
+    *     mimeTypes = {"image/jpeg", "image/gif", "image/png", "image/tiff"},
+    *     maxSizeMessage = "The maxmimum allowed file size is 1MB.",
+    *     mimeTypesMessage = "Only the filetypes image are allowed."
+    * )
      * @var File
      */
     private $pictureFile;
@@ -87,7 +95,7 @@ class User implements UserInterface
      *      message = "The two passwords are not identical."
      * )
      */
-    public $passwordConfirm;
+    private $passwordConfirm;
 
 
     /**
@@ -111,11 +119,19 @@ class User implements UserInterface
      */
     private $quotes;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActif;
+
 
     public function __construct()
     {
         $this->updatedAt = new DateTime();
+        $this->isActif = true;
     }
+
+
 
     public function getId(): ? int
     {
@@ -172,22 +188,17 @@ class User implements UserInterface
 
     public function getHash(): ? string
     {
-        //die("getHash : ".$this->hash);
         return $this->hash;
     }
 
     public function setHash($hash): self
     {
-        //die("setHash : ".$hash);
-        if ($hash  !== NULL){
-            //die($hash);
-            $this->hash=$hash;
-        }else{
+        if ($hash  !== null) {
+            $this->hash = $hash;
+        } else {
             return $this;
         }
-        
         return $this;
-
     }
 
     public function getPasswordConfirm(): ? string
@@ -274,10 +285,11 @@ class User implements UserInterface
 
     public function addUserRole(Role $userRole): self
     {
-        if (!$this->userRoles->contains($userRole)) {
-            $this->userRoles[] = $userRole;
-            $userRole->addUser($this);
-        }
+
+        //if (!$this->userRoles->contains($userRole)) {
+        $this->userRoles[] = $userRole;
+        $userRole->addUser($this);
+        //}
 
         return $this;
     }
@@ -348,8 +360,7 @@ class User implements UserInterface
         $this->pictureFile = $image;
 
         if ($image) {
-            // if 'updatedAt' is not defined in your entity, use another property
-            $this->updatedAt = new \DateTime('now');
+            $this->updatedAt = new DateTime();
         }
     }
 
@@ -358,14 +369,69 @@ class User implements UserInterface
         return $this->pictureFile;
     }
 
-    public function getUpdateAt(): ? \DateTimeInterface
+    public function getUpdatedAt(): ? \DateTimeInterface
     {
-        return $this->updateAt;
+        return $this->updatedAt;
     }
 
-    public function setUpdateAt(\DateTimeInterface $UpdateAt): self
+    public function setUpdatedAt(\DateTimeInterface $UpdateAt): self
     {
         $this->updatedAt = $UpdateAt;
+
+        return $this;
+    }
+
+    public function getPathImageUser()
+    {
+        //return  $this->getParameter('app.path.user_images') . '/' . $this->getPicture();
+        return '/uploads/images/users' . '/' . $this->getPicture();
+    }
+
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->firstName,
+            $this->lastName,
+            $this->gender,
+            $this->picture,
+            $this->updatedAt,
+            $this->email,
+            $this->hash,
+            //$this->pictureFile,
+            //$this->picture,
+            //$this->userRoles,
+            //$this->quotes
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->firstName,
+            $this->lastName,
+            $this->gender,
+            $this->picture,
+            $this->updatedAt,
+            $this->email,
+            $this->hash,
+            //$this->pictureFile,
+            //$this->picture,
+            //$this->userRoles,
+            //$this->quotes
+        ) =  unserialize($serialized);
+    }
+
+    public function getIsActif(): ? bool
+    {
+        return $this->isActif;
+    }
+
+    public function setIsActif(bool $isActif): self
+    {
+        $this->isActif = $isActif;
 
         return $this;
     }

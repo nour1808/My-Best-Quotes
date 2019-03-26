@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class RegistrationType extends ApplicationType
 {
@@ -24,7 +25,7 @@ class RegistrationType extends ApplicationType
             ->add('lastName', TextType::class, $this->getConfiguration('Lastname', 'Enter your last name'))
             ->add('email', EmailType::class, $this->getConfiguration('Email', 'Enter your email'))
             ->add('gender', ChoiceType::class, $this->getConfiguration('Gender', 'Enter your gender', ['choices'  => ['Male' => 'male', 'Female' => 'female']]))
-            ->add('picture', UrlType::class, $this->getConfiguration('Avatar', 'URL of your avatar'))
+            ->add('pictureFile', VichImageType::class, $this->getConfiguration('Profile picture', 'Choose your profile picture'))
             ->add('hash', PasswordType::class, $this->getConfiguration('Password', 'Enter your password'))
             ->add('passwordConfirm', PasswordType::class, $this->getConfiguration('Confirmation of password', 'Reenter your password'));
     }

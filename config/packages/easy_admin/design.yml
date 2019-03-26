@@ -1,0 +1,16 @@
+easy_admin:
+    formats:
+        date:     'd/m/Y'
+        time:     'H:i'
+        datetime: 'd/m/Y'
+
+    site_name: 'MYQUOTE Backend'
+    user:
+        name_property_path: 'fullname'
+        avatar_property_path: 'PathImageUser'
+
+    design:
+        brand_color: 'rgba(26, 188, 156, 0.85)'
+        assets:
+            css:
+                - '/css/admin/app.css' 

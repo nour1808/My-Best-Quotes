@@ -2,7 +2,7 @@
 {% block title %}REGISTER ON OUR SITE!
 {% endblock %}
 {% block body %}
-<div class="container" style="margin:0 auto;">
+    <div class="container" style="margin:0 auto;">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -11,11 +11,10 @@
                         <h4 class="card-title mt-2">Sign up</h4>
                     </header>
                     <article class="card-body">
-    
                         <div class="form-row">
                             <div class="col form-group">
-                                {{ form_start(form) }} {{ form_row(form.firstName) }}
-    
+                                {{ form_start(form) }}
+                                {{ form_row(form.firstName) }}
                             </div>
                             <!-- form-group end.// -->
                             <div class="col form-group">
@@ -25,7 +24,7 @@
                         </div>
                         <!-- form-row end.// -->
                         <div class="form-group">
-                            {{ form_row(form.aemail) }}
+                            {{ form_row(form.email) }}
                             <small class="form-text text-muted">We'll never share your email with anyone else.</small>
                         </div>
                         <!-- form-group end.// -->
@@ -34,39 +33,33 @@
                         </div>
                         <!-- form-group end.// -->
                         <div class="form-group">
-                            {{ form_row(form.picture) }}
+                            {{ form_row(form.pictureFile) }}
                         </div>
                         <!-- form-group end.// -->
-    
                         <!-- form-row.// -->
                         <div class="form-group">
                             <label>Create password</label>
-                            {{ form_row(form.hash) }} {{ form_row(form.passwordConfirm) }}
+                            {{ form_row(form.hash) }}
+                            {{ form_row(form.passwordConfirm) }}
                         </div>
                         <!-- form-group end.// -->
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block"> Register </button>
+                            <button class="btn btn-primary btn-block" type="submit">
+                                Register
+                            </button>
                         </div>
                         <!-- form-group// -->
-    
                     </article>
                     <!-- card-body end .// -->
                     {{ form_end(form) }}
                     <div class="border-top card-body text-center">Have an account?
-                        <a href="{{ path('account_index') }}">Log In</a></div>
+                        <a href="{{ path('account_index') }}">Log In</a>
+                    </div>
                 </div>
                 <!-- card.// -->
             </div>
             <!-- col.//-->
-    
         </div>
         <!-- row.//-->
-    
     </div>
-
-
-                        
 {% endblock %}
-            
-
-                

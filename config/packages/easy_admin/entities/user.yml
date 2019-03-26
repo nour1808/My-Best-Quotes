@@ -1,0 +1,27 @@
+easy_admin:
+    entities:
+        User:
+            class: App\Entity\User
+            list:
+                title: 'Users'
+                actions: ['new','show','edit','delete']
+                fields: ['id',  { property: 'fullname', label : 'Full name'}, 'email',  { property: 'picture', type: 'image', base_path: '%app.path.user_images%' }, { property: 'gender', template: 'easy_admin/user/gender.html.twig' },{ property: 'roles' , template: 'easy_admin/user/role.html.twig'}, {property: 'quotes',  label: 'Quotes' }, { property : 'isActif', label: 'Enabled'}]
+                sort: ['id', 'DESC']
+            show:
+                fields: ['id', { property: 'fullname', label : 'Full name'}, { property: 'isActif', label : 'Activate account' , type : 'boolean'}, 'firstname','lastname', 'email',  { property: 'picture', type: 'image', base_path: '%app.path.user_images%' }, { property: 'gender', template: 'easy_admin/user/gender.html.twig'},{ property: 'roles', template: 'easy_admin/user/role.html.twig'}, {property: 'quotes',  label: 'Quotes' }, { property : 'isActif', label: 'Enabled'}]
+            form:
+                fields:
+                    - { type: 'group', columns: 2 , label: 'Account Information', icon: 'user', css_class: 'col-6' }
+                    - { property: 'firstname', type : 'text' }
+                    - { property: 'lastname' , type : 'text' }
+                    
+                    - { type: 'group', columns: 2 , label: 'Contact Information', icon: 'envelope-o', css_class: 'col-6' }
+                    - { property: 'email' }
+                    - { property: 'isActif', label : 'Enabled'  }
+
+                    - { type: 'group', columns: 2 , label: 'Picture file', icon: 'briefcase', css_class: 'col-6' }
+                    - { property: 'pictureFile', type: 'vich_image' }
+                    
+                    - { type: 'group', columns: 2 , label: 'Personal Information', icon: 'money', css_class: 'col-6' }
+                    - { property: 'hash', type: 'password', type_options: { required: false } }
+                    - { property: 'roles', type: 'choice', type_options: { disabled: true, multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }

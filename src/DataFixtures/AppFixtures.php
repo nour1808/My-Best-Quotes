@@ -30,6 +30,7 @@ class AppFixtures extends Fixture
         $adminRole->setTitle('ROLE_ADMIN');
         $manager->persist($adminRole);
 
+
         //Création user ADMIN
         $adminUser = new User();
         $adminUser->setFirstName('Noureddine')
@@ -42,7 +43,7 @@ class AppFixtures extends Fixture
 
         $users[] = $adminUser;
         //Gestion des users
-        for ($i = 1; $i <= 2; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             $user = new User();
             $genre = $faker->randomElement($genres);
             $picture = "https://randomuser.me/api/portraits/";
@@ -72,11 +73,11 @@ class AppFixtures extends Fixture
 
             $API = "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=3";
             $API2 = "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand";
-    
+
             $client = new Client([
                 'headers' => ['Content-type' => 'application/json', 'Accept' => 'application/json']
             ]);
-    
+
             $response = $client->request('GET', $API2);
             $data = $response->getBody();
             $data = json_decode($data);
@@ -90,13 +91,11 @@ class AppFixtures extends Fixture
             $authorQuote = $data->title;
             $userQuote = $users[mt_rand(0, count($users) - 1)];
 
-            $quote->setTitle($title)
-                ->setContent($content)
+            $quote->setContent($content)
                 ->setSource($source)
                 ->setUser($userQuote)
                 ->setAuthor($authorQuote)
-                ->setCreatedAt($faker->dateTimeBetween('-8 months'))
-                ->setDaily($faker->boolean());
+                ->setCreatedAt($faker->dateTimeBetween('-8 months'));
 
             $manager->persist($quote);
         }

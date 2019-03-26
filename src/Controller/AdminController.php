@@ -25,39 +25,34 @@ class AdminController extends EasyAdminController
 
     private function updateHash($entity)
     {
-       
-            if (method_exists($entity, 'setHash') and method_exists($entity, 'getHash')) {
-                if($entity->getHash() != "" && $_POST['user']['hash'] != ""){
-                    $newPassword = $entity->getHash();
-                    $hash = $this->encoder->encodePassword($entity, $newPassword);
-                    $entity->setHash($hash);
-                }else{
-                    $userQ = $this->getDoctrine()
+
+        if (method_exists($entity, 'setHash') and method_exists($entity, 'getHash')) {
+            if ($entity->getHash() != "" && isset($_POST['user']['hash']) && $_POST['user']['hash'] != "") {
+                $newPassword = $entity->getHash();
+                $hash = $this->encoder->encodePassword($entity, $newPassword);
+                $entity->setHash($hash);
+            } else {
+                $userQ = $this->getDoctrine()
                     ->getRepository(User::class)
                     ->findOneBy(['id' => $entity->getId()]);
-                    $entity->setHash($userQ->getHash());
-                }
+                $entity->setHash($userQ->getHash());
             }
-        
-        
+        }
     }
 
     private function updateRole($entity)
     {
-    
-                if($entity->getHash() != "" && $_POST['user']['hash'] != ""){
-                    $newPassword = $entity->getHash();
-                    $hash = $this->encoder->encodePassword($entity, $newPassword);
-                    $entity->setHash($hash);
-                }else{
-                    $userQ = $this->getDoctrine()
-                    ->getRepository(User::class)
-                    ->findOneBy(['id' => $entity->getId()]);
-                    $entity->setHash($userQ->getHash());
-                }
-            
-        
-        
+
+        if ($entity->getHash() != "" && $_POST['user']['hash'] != "") {
+            $newPassword = $entity->getHash();
+            $hash = $this->encoder->encodePassword($entity, $newPassword);
+            $entity->setHash($hash);
+        } else {
+            $userQ = $this->getDoctrine()
+                ->getRepository(User::class)
+                ->findOneBy(['id' => $entity->getId()]);
+            $entity->setHash($userQ->getHash());
+        }
     }
 
     public function updateUserEntity($entity)
@@ -74,7 +69,7 @@ class AdminController extends EasyAdminController
         parent::persistEntity($entity);
     }
 
-/*
+    /*
     public function createNewUserEntity(){
         
         if(isset($_POST['user']['hash'])){
