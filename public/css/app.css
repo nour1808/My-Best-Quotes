@@ -305,4 +305,11 @@ h1 .bigger {
 .mb-6 .text-center img {
   max-width: 230px;
   display: block;
+
+  height: 201px;
+  overflow: hidden;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
+  width: 201px;
 }

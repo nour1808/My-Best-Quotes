@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
-{% block title %}My best quotes{% endblock %}
+{% block title %}To live well with your favorite quotes
+{% endblock %}
 {% block body %}
     <div class="post">
         <div id="quote-content">
@@ -12,9 +13,7 @@
             {% if data.custom_meta is defined %}
                 <span id="quote-source">Source:
                     {{ data.custom_meta.Source|raw }}
-                </span>
-                
-                    
+                </span>                   
                 </p>
             {% endif %}
             <br>

@@ -3,17 +3,19 @@
     <head>
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
         <meta content="width=device-width, user-scalable=no" name="viewport"/>
-        <title>MY BEST QUOTES -
+        <title>MY BEST QUOTES |myquotes.be|
             {% block title %}{% endblock %}
         </title>
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }} ">
-            <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }} ">
-                {% block stylesheets %}{% endblock %}
-            </head>
-            <body class="home blog expansion-alids-init">
-                {% include 'partials/header.html.twig' %}
-                {% block body %}{% endblock %}
-                {% include 'partials/footer.html.twig' %}
-                <script src="{{ asset('js/bootstrap.min.js') }} "></script>
-                {% block javascripts %}{% endblock %}
-            
+        <meta
+content="MY BEST QUOTES -myquotes.be | Best myquote Quotes, Status, Shayari, Poetry Quotes can be inspirational and motivational. Enjoy a wallpaper image of a new inspirational quote  | MyQuote." name="description">
+            <!-- Meta Description -->
+            <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }} ">
+                <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }} ">
+                    {% block stylesheets %}{% endblock %}
+                </head>
+                <body class="home blog expansion-alids-init">
+                    {% include 'partials/header.html.twig' %}
+                    {% block body %}{% endblock %}
+                    {% include 'partials/footer.html.twig' %}
+                    <script src="{{ asset('js/bootstrap.min.js') }} "></script>
+                    {% block javascripts %}{% endblock %}

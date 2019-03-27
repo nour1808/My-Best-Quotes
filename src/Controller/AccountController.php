@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\AccountType;
+use App\Entity\ResetPassword;
 use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
+use App\Form\ResetPasswordType;
 use App\Form\PasswordUpdateType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Repository\UserRepository;
 
 class AccountController extends AbstractController
 {
@@ -138,6 +141,34 @@ class AccountController extends AbstractController
     }
 
     /**
+     * @Route("/account/reset-password", name="account_reset")
+     */
+    public function resetPassword(UserRepository $repo, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    {
+        $resetPssword = new ResetPassword();
+        $form = $this->createForm(ResetPasswordType::class, $resetPssword);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $email =  $resetPssword->getEmail();
+            $user = $repo->findByEmail($email);
+            if ($user) {
+                $this->addFlash(
+                    'success',
+                    "We have sent an email that contains the reset of your password."
+                );
+            } else {
+                $form->get('email')->addError(new FormError("No user exists in our database with this email, thank you to resubscribe with another valid email address. "));
+            }
+        }
+
+        return $this->render('account/reset-password.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/account", name="account_index")
      * @IsGranted("ROLE_USER")
      */
@@ -147,6 +178,4 @@ class AccountController extends AbstractController
             'user' => $this->getUser()
         ]);
     }
-
-    
 }

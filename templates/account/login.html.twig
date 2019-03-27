@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
-{% block title %}Connexion au site{% endblock %}
+{% block title %}Connexion au site
+{% endblock %}
 {% block body %}
     <div class="container">
         <div class="row">
@@ -24,10 +25,13 @@
                         </div>
                     </form>
                 </div>
-                 <p style="text-align:center;"><a class="btn btn-primary" type="submit" href="{{ path('account_register') }}">Create an account quickly</a>
-
+                <p style="text-align:center;">
+                    <br>
+                        <a class="btn btn-primary" type="submit" href="{{ path('account_register') }}">Create an account quickly</a>
+                        <a class="btn btn-secondary" type="submit" href="{{ path('account_reset') }}">Reset Password</a>
+                    </p>
+                </div>
+                <div class="col-md-3"></div>
             </div>
-            <div class="col-md-3"></div>
         </div>
-    </div>
-{% endblock %}
+    {% endblock %}
