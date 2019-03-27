@@ -22,3 +22,11 @@
 
 .idea/*
 .env
+
+/.env.local
+/.env.local.php
+/.env.*.local
+
+/.env.prod
+/.env.prod.php
+/.env.*.prod
