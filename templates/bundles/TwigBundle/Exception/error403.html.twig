@@ -4,13 +4,16 @@
 {% endblock %}
 {% block body %}
     <div class="container">
-        <h1 class="mb-5 mt-5">Access forbidden !
+        <h1 class="mb-5 mt-5 col-10">Access forbidden !
         </h1>
         <div class="alert alert-danger">
             <p>You don't have the right to access this resource.</p>
             <p>
-                {{ exception.message }}</p>
+                {{ exception.message }}
+            </p>
         </div>
-        <a href="{{ path('home_index') }}" class="btn btn-primary">homepage</a>
+        <p class="text-align" style="text-align:center;">
+            <a href="{{ path('home_index') }}" class="btn btn-primary text-align">Home page</a>
+        </p>
     </div>
 {% endblock %}
