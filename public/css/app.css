@@ -301,3 +301,8 @@ h1 .bigger {
   max-width: 300px;
   display: block;
 }
+
+.mb-6 .text-center img {
+  max-width: 230px;
+  display: block;
+}
