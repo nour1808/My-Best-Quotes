@@ -1,0 +1,20 @@
+<div class="post" style="max-width:70%; margin: 50px auto;">
+    <div id="quote-content">
+        {{ quote.content|raw }}
+    </div>
+    <div class="author">
+        <span id="quote-title-dash">—</span>
+        <span id="quote-title">
+            {{ quote.Author }}
+        </span>
+        {% if quote.source is not null %}
+            <span id="quote-source">Source:
+                {{ quote.source|raw }}
+            </span>
+            <br>
+            {% endif %}
+        </div>
+
+        <p style="text-align:right;margin-top: 20px;"><a class="btn btn-danger" href="{{path('home_removeQuote',{id: quote.id})}}">Remove</a></p>
+
+    </div>

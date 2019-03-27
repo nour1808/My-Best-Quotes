@@ -1,0 +1,7 @@
+easy_admin:
+    design:
+        menu:
+            - { entity: 'User', css_class: 'menu--user text-bold' , icon: 'user' }
+            - { entity: 'Quote', css_class: 'default menu--product text-bold' , icon: 'list' }
+            - { entity: 'Role', css_class: 'text-bold' , icon: 'tag' }   
+            - { label: 'Public Homepage', target: '_blank', route: 'home_index', css_class: 'text-bold' , icon: 'home'} 

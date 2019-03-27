@@ -1,7 +1,19 @@
 <div id="page-wrap">
     <h1>
-        <a href="#" style="margin-bottom: 50px;">MY<span class="bigger">
+        <a href="{{ path('home_index')}}" style="margin-bottom: 50px;">MY<span class="bigger">
                 QUOTES</span>
-            <span class="italics">.be</span>
+            <span class="italics">BEST</span>
         </a>
     </h1>
+    {% for label, messages in app.flashes %}
+        <div>
+            <div class="alert alert-{{ label }} " style="margin-bottom:0 !important">
+                {% for message in messages %}
+                    <a aria-label="close" class="close" data-dismiss="alert" href="#" style="text-decoration:none" title="close">×</a>
+                    <p>
+                        {{ message|raw }}</p>
+                {% endfor %}
+            </div>
+        </div>
+<br>
+    {% endfor %}

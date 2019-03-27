@@ -1,0 +1,21 @@
+{% set colors = field_options.label_colors|default(['primary']) %}
+
+
+{% if value[0] == "ROLE_USER" %}
+<span class="badge badge-secondary" title="{{ value[0] }}">
+    User 
+</span>
+
+{% elseif value[0] == "ROLE_MANAGER" %}
+<span class="badge badge-primary" title="{{ value[0] }}">
+    Manager 
+</span>
+
+{% else %}
+
+<span class="badge badge-success" title="{{ value[0] }}">
+    Admin
+</span>
+{% endif %}
+
+

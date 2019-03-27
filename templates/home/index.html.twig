@@ -3,19 +3,23 @@
 {% block body %}
     <div class="post">
         <div id="quote-content">
-            <p>Noureddine:Don’t you miss doing creative stuff, as an engineer? Don’t you miss the creativity of the art world? You can
-                                                            					say: I’m working on an infinite canvas capable of any size and shape, that’s already glowing every color possible
-                                                            					into the eyes of just about everyone on the planet. And I get to decide the kind of experience, feeling, and
-                                                            					emotion they are going to have. How is that not creative?</p>
+            {{ data.content|raw }}
         </div>
         <p class="author">
             <span id="quote-title-dash">—</span>
-            <span id="quote-title">Natalya Shelburne</span>
-            <span id="quote-source">Source:
-                <a href="https://www.youtube.com/watch?v=1x-x7HfSSnU&amp;t=24s&amp;list=WL&amp;index=2">talk</a>
-            </span>
+            <span id="quote-title">
+                {{ data.title }}</span>
+            {% if data.custom_meta is defined %}
+                <span id="quote-source">Source:
+                    {{ data.custom_meta.Source|raw }}
+                </span>
+                
+                    
+                </p>
+            {% endif %}
             <br>
-                <a href="http://twitter.com/home?status=Don&amp;#8217;t%20you%20miss%20doing%20creative%20stuff,%20as%20an%20engineer?%20Don&amp;#8217;t%20you%20miss%20the%20creativity%20of%20the%20art%20wo...%20https://quotesondesign.com/natalya-shelburne/" id="twitter">Tweet</a>
-            </p>
+            {% if app.user %}
+            <p style="margin:0 auto;text-align:center"><a class="btn btn-success" href="{{path('home_saveQuote')}}">Save this quote</a></p>
+        {% endif %}
         </div>
     {% endblock %}

@@ -1,0 +1,5 @@
+/*** CSS For ADMIN PANEL **/
+.easyadmin-vich-image a img {
+  max-width: 340px;
+  display: block;
+}

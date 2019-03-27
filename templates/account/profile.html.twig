@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block title %}Editing your account
+{% endblock %}
+{% block body %}
+    <div class="container" style="margin:0 auto;">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <header class="card-header">
+                        <h4 class="card-title mt-2">Editing your account</h4>
+                    </header>
+                    <article class="card-body">
+                        <div class="form-row">
+                            <div class="col form-group">
+                                {{ form_start(form) }}
+                                {{ form_row(form.firstName) }}
+                                {{ form_row(form.lastName) }}
+                                {{ form_row(form.email) }}
+                                {{ form_row(form.pictureFile) }}
+                                {{ form_row(form.gender) }}
+                                <hr>
+                                    <button class="btn btn-success" type="submit">
+                                        <i class="fas fa-save"></i>Save Changes
+                                    </button>
+                                    {{ form_end(form) }}
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <!-- card.// -->
+                </div>
+                <!-- col.//-->
+            </div>
+            <!-- row.//-->
+        </div>
+    {% endblock %}

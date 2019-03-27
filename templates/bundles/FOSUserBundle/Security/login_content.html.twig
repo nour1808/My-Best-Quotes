@@ -1,0 +1,40 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% if error %}
+    <div class="alert alert-danger">
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+    </div>
+{% endif %}
+<form action="{{ path("fos_user_security_check") }}" method="post">
+    {% if csrf_token %}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+    {% endif %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="bg-light py-4 px-4">
+                    <h1>Login In !</h1>
+                    <div class="form-group">
+                        <label for="username">
+                            {{ 'security.login.username'|trans }}</label>
+                        <input type="text" class="form-control" id="username" placeholder="Enter your email" name="_username" value="{{ last_username }}" required="required" autocomplete="username"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password :</label>
+                        <input autocomplete="current-password" class="form-control" id="password" name="_password" placeholder="Enter your password" required="required" type="password"/>
+                        <input id="remember_me" name="_remember_me" type="checkbox" value="on"/>
+                        <label for="remember_me">
+                            {{ 'security.login.remember_me'|trans }}</label>
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-success" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}"/>
+                        <br/></div>
+                </div>
+                <a class="btn btn-info" href="{{ path('fos_user_registration_register') }}">Create Account</a>
+                <a class="btn btn-secondary" href="{{ path('fos_user_resetting_request') }}">Forgot your password</a>
+                <br/>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+</form>

@@ -6,6 +6,9 @@
 parameters:
     locale: 'en'
 
+    app.path.user_images: /uploads/images/users
+      
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -25,4 +28,4 @@ services:
         tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    # please note that last definitions always *replace* previous ones 
