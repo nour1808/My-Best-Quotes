@@ -1,14 +1,13 @@
 {% extends 'base.html.twig' %}
-
-{% block title %} Page introuvable {% endblock %}
-
+{% block title %}
+    Page not found
+{% endblock %}
 {% block body %}
-
-<div class="container">
-<h1 class="mb-5 mt-5">OUPS ! La page que vous recherché n'existe pas ! </h1>
-
-<a href="{{ path('homepage') }}" class="btn btn-primary">Voir la page d'accueil</a>
-<a href="{{ path('ads_index') }}" class="btn btn-primary">Nos annonces</a>
-</div>
-
+    <div class="container">
+        <h1 class="mb-5 mt-5 col-10">The page you are looking for no longer exists, please try again ...
+        </h1>
+        <p class="text-align" style="text-align:center;">
+            <a href="{{ path('home_index') }}" class="btn btn-primary text-align">Home page</a>
+        </p>
+    </div>
 {% endblock %}

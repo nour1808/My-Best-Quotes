@@ -1,21 +1,16 @@
 {% extends 'base.html.twig' %}
-
-{% block title %} Vous n'avez pas le droit d'accéder à cette ressource.  {% endblock %}
-
+{% block title %}
+    You don't have the right to access this resource.
+{% endblock %}
 {% block body %}
-
-<div class="container">
-<h1 class="mb-5 mt-5">Accès interdit ! </h1>
-
-<div class="alert alert-danger">
-
-<p>Vous n'avez pas le droit d'accéder à cette ressource.</p>
-<p> {{ exception.message }}</p>
-
-</div>
-
-<a href="{{ path('homepage') }}" class="btn btn-primary">Retour à l'accueil</a>
-<a href="{{ path('ads_index') }}" class="btn btn-primary">Nos annonces</a>
-</div>
-
+    <div class="container">
+        <h1 class="mb-5 mt-5">Access forbidden !
+        </h1>
+        <div class="alert alert-danger">
+            <p>You don't have the right to access this resource.</p>
+            <p>
+                {{ exception.message }}</p>
+        </div>
+        <a href="{{ path('home_index') }}" class="btn btn-primary">homepage</a>
+    </div>
 {% endblock %}
