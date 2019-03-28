@@ -7,18 +7,20 @@ use App\Form\AccountType;
 use App\Entity\ResetPassword;
 use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
+use App\Form\PasswordResetType;
 use App\Form\ResetPasswordType;
 use App\Form\PasswordUpdateType;
+use App\Repository\UserRepository;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\PasswordUpdate as AppPasswordUpdate;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Repository\UserRepository;
 
 class AccountController extends AbstractController
 {
@@ -143,7 +145,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/account/reset-password", name="account_reset")
      */
-    public function resetPassword(UserRepository $repo, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    public function resetPassword(UserRepository $repo, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer)
     {
         $resetPssword = new ResetPassword();
         $form = $this->createForm(ResetPasswordType::class, $resetPssword);
@@ -152,12 +154,31 @@ class AccountController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $email =  $resetPssword->getEmail();
-            $user = $repo->findByEmail($email);
+            $user = $repo->findOneByEmail($email);
             if ($user) {
-                $this->addFlash(
-                    'success',
-                    "We have sent an email that contains the reset of your password."
-                );
+                $token = uniqid();
+                $user->setResetPassword($token);
+                $manager->persist($user);
+                $manager->flush();
+
+                $message = (new \Swift_Message('Reset Password For your account'))
+                    ->setFrom('contact@berosta.com')
+                    ->setTo($user->getEmail())
+                    ->setBody(
+                        $this->renderView(
+                            // templates/emails/registration.html.twig
+                            'emails/reset-password.html.twig',
+                            ['user' => $user]
+                        ),
+                        'text/html'
+                    );
+
+                if ($mailer->send($message)) {
+                    $this->addFlash(
+                        'success',
+                        "We have sent an email that contains the reset of your password."
+                    );
+                }
             } else {
                 $form->get('email')->addError(new FormError("No user exists in our database with this email, thank you to resubscribe with another valid email address. "));
             }
@@ -166,6 +187,45 @@ class AccountController extends AbstractController
         return $this->render('account/reset-password.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/account/reset-password/{token}", name="account_reset_token")
+     */
+    public function resetPasswordToken(UserRepository $repo, $token, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    {
+
+        $user = $repo->findOneByResetPassword($token);
+ 
+        if ($token && $user) {
+            $passwordUpdate = new PasswordUpdate();
+            $form = $this->createForm(PasswordResetType::class, $passwordUpdate);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $newPassword = $passwordUpdate->getNewPassword();
+                $hash = $encoder->encodePassword($user, $newPassword);
+                $user->setHash($hash);
+                $user->setResetPassword(null);
+                $manager->persist($user);
+                $manager->flush();
+                $this->addFlash(
+                    'success',
+                    "Your password has been modified"
+                );
+                return $this->redirectToRoute('account_login');
+            }
+
+            return $this->render('account/reset-password-token.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        } else {
+            $this->addFlash(
+                'danger',
+                "invalid Token "
+            );
+        }
+        return $this->redirectToRoute('account_reset');
     }
 
     /**
