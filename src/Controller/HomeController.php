@@ -89,4 +89,3 @@ class HomeController extends AbstractController
         return $this->redirectToRoute("account_index");
     }
 }
-

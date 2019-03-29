@@ -134,7 +134,7 @@ class User implements UserInterface, Serializable
     public function __construct()
     {
         $this->updatedAt = new DateTime();
-        $this->isActif = true;
+        $this->isActif = false;
     }
 
 
@@ -455,3 +455,4 @@ class User implements UserInterface, Serializable
         return $this;
     }
 }
+

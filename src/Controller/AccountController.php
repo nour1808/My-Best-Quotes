@@ -46,22 +46,37 @@ class AccountController extends AbstractController
     /**
      * @Route("/account/register", name="account_register")
      */
-    public function register(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    public function register(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer)
     {
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
+        $defaultPicture = "default-user-image.png";
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if (!$user->getPicture()) {
+                $user->setPicture($defaultPicture);
+            }
+
             $hash = $encoder->encodePassword($user, $user->getHash());
             $user->setHash($hash);
+
+            $token = sha1(uniqid());
+            $user->setResetPassword($token);
+
             $manager->persist($user);
             $manager->flush();
 
+            $subject = "Activate your account myquotes.be";
+            $templateName = "registration.html.twig";
+
+            $this->MailTO(null, $user->getEmail(), $subject, $templateName, $user, 'user', $mailer);
+
             $this->addFlash(
                 'success',
-                "Your account has been created, you can now sign in."
+                "Your account has been created, an email has been sent to your mailbox thank you to click on the activation link."
             );
 
             return $this->redirectToRoute('account_login');
@@ -70,6 +85,31 @@ class AccountController extends AbstractController
         return $this->render('account/registration.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/account/auth/activate/{token}", name="account_register_token")
+     */
+    public function ActivateAccount(UserRepository $repo, $token, ObjectManager $manager)
+    {
+        $user = $repo->findOneByResetPassword($token);
+        if ($token && $user) {
+            $user->setResetPassword(null);
+            $user->setIsActif(true);
+            $manager->persist($user);
+            $manager->flush();
+            $this->addFlash(
+                'success',
+                "Your account has been successfully activated."
+            );
+        } else {
+            $this->addFlash(
+                'danger',
+                "Invalid Token."
+            );
+        }
+
+        return $this->redirectToRoute('account_login');
     }
 
     /**
@@ -101,6 +141,21 @@ class AccountController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/quotes/{slug}", name="account_profile_slug")
+     */
+    public function showProfile(User $user)
+    {
+        if (!$user) {
+            throw $this->createNotFoundException('This user has been deactivated');
+        }
+
+        return $this->render('user/profile-slug.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
 
     /**
      * @Route("/account/password-update", name="account_password")
@@ -156,29 +211,20 @@ class AccountController extends AbstractController
             $email =  $resetPssword->getEmail();
             $user = $repo->findOneByEmail($email);
             if ($user) {
-                $token = uniqid();
+                $token = sha1(uniqid());
                 $user->setResetPassword($token);
                 $manager->persist($user);
                 $manager->flush();
 
-                $message = (new \Swift_Message('Reset Password For your account'))
-                    ->setFrom('contact@berosta.com')
-                    ->setTo($user->getEmail())
-                    ->setBody(
-                        $this->renderView(
-                            // templates/emails/registration.html.twig
-                            'emails/reset-password.html.twig',
-                            ['user' => $user]
-                        ),
-                        'text/html'
-                    );
+                $subject = "Reset Password For your account";
+                $templateName = "reset-password.html.twig";
 
-                if ($mailer->send($message)) {
-                    $this->addFlash(
-                        'success',
-                        "We have sent an email that contains the reset of your password."
-                    );
-                }
+                $this->MailTO(null, $user->getEmail(), $subject, $templateName, $user, 'user', $mailer);
+
+                $this->addFlash(
+                    'success',
+                    "We have sent an email that contains the reset of your password."
+                );
             } else {
                 $form->get('email')->addError(new FormError("No user exists in our database with this email, thank you to resubscribe with another valid email address. "));
             }
@@ -189,14 +235,53 @@ class AccountController extends AbstractController
         ]);
     }
 
+    protected function MailTO($emailFrom, $emailTo, $subject, $templateName, $entity, $labelEntity, $mailer)
+    {
+
+        if (!$emailFrom) {
+            $emailFrom = 'contact@berosta.com';
+        }
+
+        if (!$emailTo) {
+            $emailFrom = $entity->getEmail();
+        }
+
+        $message = (new \Swift_Message($subject))
+            ->setFrom($emailFrom)
+            ->setTo($emailTo)
+            ->setBody(
+                $this->renderView(
+                    "emails/$templateName",
+                    [$labelEntity => $entity]
+                ),
+                'text/html'
+            );
+
+        $mailer->send($message);
+        //return $message;
+
+        /* $message = (new \Swift_Message('Reset Password For your account'))
+                    ->setFrom('contact@berosta.com')
+                    ->setTo($user->getEmail())
+                    ->setBody(
+                        $this->renderView(
+                            // templates/emails/registration.html.twig
+                            'emails/reset-password.html.twig',
+                            ['user' => $user]
+                        ),
+                        'text/html'
+                    );
+        */
+    }
+
     /**
-     * @Route("/account/reset-password/{token}", name="account_reset_token")
+     * @Route("/account/auth/reset-password/{token}", name="account_reset_token")
      */
     public function resetPasswordToken(UserRepository $repo, $token, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
 
         $user = $repo->findOneByResetPassword($token);
- 
+
         if ($token && $user) {
             $passwordUpdate = new PasswordUpdate();
             $form = $this->createForm(PasswordResetType::class, $passwordUpdate);

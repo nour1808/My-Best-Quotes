@@ -59,11 +59,7 @@ h1 .bigger {
   font-size: 46px;
 }
 
-@media (max-width: 1000px) {
-  h1 {
-    margin-left: 0;
-  }
-}
+
 
 .post {
   max-width: 600px;
@@ -312,4 +308,42 @@ h1 .bigger {
   -moz-border-radius: 100px;
   border-radius: 100px;
   width: 201px;
+}
+
+#quote-button-wrapper #get-another-quote-button {
+   margin-left:5px
+  }
+
+/* Media query*/
+@media (max-width: 900px) {
+  h1 {
+    margin-left: 0;
+  }
+#page-wrap h1{
+    text-align: center;
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+  }
+  .btn{
+    display: block !important;
+     margin-top: 8px;
+     cursor: pointer;
+  }
+  #quote-button-wrapper #get-another-quote-button {
+    margin-top: 8px;
+  }
+
+  .mb-6 .text-center img{
+    height: 95px !important;
+    max-width: 90px !important;
+  }
+
+  #quote-button-wrapper {
+    position: relative !important;
+    top: 5px;
+    width: 90%;
+    right: 0% !important;
+    margin-left: 16px;
+}
 }
