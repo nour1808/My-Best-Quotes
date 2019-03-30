@@ -3,3 +3,11 @@
   max-width: 340px;
   display: block;
 }
+
+
+@media (max-width: 900px) {
+.easyadmin-vich-image a img {
+  max-width: 90px;
+  display: block;
+}
+}

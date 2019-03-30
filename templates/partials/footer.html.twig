@@ -3,14 +3,14 @@
         Get another quote
     </a>
     {% if app.user %}
-    <a style="margin-left:7px" href="{{ path('account_index') }}" id="get-another-quote-button">
+    <a  href="{{ path('account_index') }}" id="get-another-quote-button">
         My account
     </a>
-    <a style="margin-left:7px" href="{{ path('account_logout') }}" id="get-another-quote-button">
+    <a  href="{{ path('account_logout') }}" id="get-another-quote-button">
         logout
     </a>
      {% else %}
-         <a style="margin-left:7px" href="{{ path('account_login') }}" id="get-another-quote-button">
+         <a  href="{{ path('account_login') }}" id="get-another-quote-button">
         login
     </a>
     {% endif %}
@@ -22,7 +22,7 @@
     </div>
     <div class="footer-right">
         <a href="https://berjaoui.be">Portefolio</a>
-        <a href="#submit/">Submit a Quote</a>
+        <a href="{{ path('home_addQuote') }}/">Submit a Quote</a>
     </div>
 </div>
 <script src="" type="text/javascript"></script></div><div id="shadowMeasureIt"></div><div id="divCoordMeasureIt"></div><div id="divRectangleMeasureIt">

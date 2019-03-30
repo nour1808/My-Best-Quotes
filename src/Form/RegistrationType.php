@@ -25,7 +25,7 @@ class RegistrationType extends ApplicationType
             ->add('lastName', TextType::class, $this->getConfiguration('Lastname', 'Enter your last name'))
             ->add('email', EmailType::class, $this->getConfiguration('Email', 'Enter your email'))
             ->add('gender', ChoiceType::class, $this->getConfiguration('Gender', 'Enter your gender', ['choices'  => ['Male' => 'male', 'Female' => 'female']]))
-            ->add('pictureFile', VichImageType::class, $this->getConfiguration('Profile picture', 'Choose your profile picture'))
+            ->add('pictureFile', VichImageType::class, $this->getConfiguration('Profile picture', 'Choose your profile picture', ['required' => false]))
             ->add('hash', PasswordType::class, $this->getConfiguration('Password', 'Enter your password'))
             ->add('passwordConfirm', PasswordType::class, $this->getConfiguration('Confirmation of password', 'Reenter your password'));
     }

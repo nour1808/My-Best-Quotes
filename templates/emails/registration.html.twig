@@ -1,0 +1,24 @@
+<h3>
+    <b>
+        Activate your account MyQuotes
+    </b>
+</h3>
+<p>
+    <b>In order to activate your account, we must validate your email address. Just click on the link:</b>
+</p>
+
+<p style="padding-bottom:10px;padding-top:10px">
+
+    <a href="{{ url('account_register_token',{'token' : user.resetPassword }) }}" style="padding: 10px;color: #fff;background-color: #17a2b8;border-color: #17a2b8;font-weight: bold;text-align: center;border: 1px solid transparent;font-size: 1rem;line-height: 1.5;border-radius: .25rem;text-decoration:none" class="btn btn-info">
+        Activate my account
+    </a>
+</p>
+
+<p>
+    If this link does not work, copy and paste the following URL into your browser:<br>
+    http://myquotes.be/account/auth/activate/{{user.resetPassword}}
+</p>
+
+<p style="">
+    <b>L'équipe MyQuotes</b>
+</p>

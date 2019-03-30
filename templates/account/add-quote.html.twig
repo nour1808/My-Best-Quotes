@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block title %}Add your quote
+{% endblock %}
+{% block body %}
+    <div class="container" style="margin:0 auto;">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <header class="card-header">
+                        <h4 class="card-title mt-2">Add your quote</h4>
+                    </header>
+                    <article class="card-body">
+                        <div class="form-row">
+                            <div class="col-12 form-group">
+                                {{ form_start(form) }}
+                                {{ form_row(form.content) }}
+                            </div>
+                            <!-- form-group end.// -->
+                            <div class="col-12 form-group">
+                                {{ form_row(form.source) }}
+                            </div>
+                            <!-- form-group end.// -->
+                        </div>
+                       
+                        <!-- form-group end.// -->
+                        <div class="form-group">
+                            <button  class="btn btn-primary" type="submit">
+                                Add quote
+                            </button>
+                        </div>
+                        <!-- form-group// -->
+                    </article>
+                    {{ form_end(form) }}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

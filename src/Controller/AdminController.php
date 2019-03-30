@@ -38,6 +38,7 @@ class AdminController extends EasyAdminController
                 $entity->setHash($userQ->getHash());
             }
         }
+        
     }
 
     private function updateRole($entity)

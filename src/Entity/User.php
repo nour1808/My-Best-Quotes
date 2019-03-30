@@ -124,11 +124,17 @@ class User implements UserInterface, Serializable
      */
     private $isActif;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $resetPassword;
+
+
 
     public function __construct()
     {
         $this->updatedAt = new DateTime();
-        $this->isActif = true;
+        $this->isActif = false;
     }
 
 
@@ -137,6 +143,19 @@ class User implements UserInterface, Serializable
     {
         return $this->id;
     }
+
+    public function getResetPassword(): ? string
+    {
+        return $this->resetPassword;
+    }
+
+    public function setResetPassword($resetPassword = null): self
+    {
+        $this->resetPassword = $resetPassword;
+
+        return $this;
+    }
+
 
     public function getFirstName(): ? string
     {
@@ -436,3 +455,4 @@ class User implements UserInterface, Serializable
         return $this;
     }
 }
+

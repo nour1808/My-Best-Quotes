@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Quote;
 use GuzzleHttp\Client;
+use App\Form\AddQuoteType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -88,5 +89,43 @@ class HomeController extends AbstractController
 
         return $this->redirectToRoute("account_index");
     }
-}
 
+   /**
+     * @Route("/quote/new", name="home_addQuote")
+     * @IsGranted("ROLE_USER")
+     */
+    public function addQuote(Request $request, ObjectManager $manager)
+    {
+        $quote = new Quote();
+        $form = $this->createForm(AddQuoteType::class, $quote);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $user = $this->getUser();
+
+            $quote
+            ->setAuthor($user->getFullname())
+            ->setUser($user)
+            ;
+
+        $manager->persist($quote);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "The addition of your quote has been successfully registered."
+        );
+                return $this->redirectToRoute('account_index');
+            
+        }
+
+        return $this->render('account/add-quote.html.twig', [
+            'form' => $form->createView(),
+        ]);
+
+        
+    }
+
+
+}

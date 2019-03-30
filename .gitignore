@@ -8,6 +8,7 @@
 ###> symfony/webpack-encore-pack ###
 /node_modules/
 /public/build/
+/public/uploads/images/users
 ###< symfony/webpack-encore-pack ###
 
 ###> symfony/phpunit-bridge ###
@@ -21,12 +22,7 @@
 
 
 .idea/*
-.env
 
 /.env.local
 /.env.local.php
 /.env.*.local
-
-/.env.prod
-/.env.prod.php
-/.env.*.prod
