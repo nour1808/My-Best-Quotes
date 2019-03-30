@@ -71,20 +71,20 @@ h1 .bigger {
 .post:after {
   position: absolute;
   top: 10px;
-  font-size: 350px;
+  font-size: 150px;
   color: #16B6DF;
   font-family: Arial;
   font-weight: bold;
-  line-height: 300px;
+  line-height: 100px;
 }
 
 .post:before {
-  left: -200px;
+  left: -100px;
   content: '\201c';
 }
 
 .post:after {
-  right: -200px;
+  right: -100px;
   content: '\201d';
 }
 
