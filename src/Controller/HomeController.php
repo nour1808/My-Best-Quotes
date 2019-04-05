@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\Quote;
 use GuzzleHttp\Client;
 use App\Form\AddQuoteType;
+use Sonata\SeoBundle\Seo\SeoPageInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +22,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home_index")
      */
-    public function index(Request $request)
+    public function index(Request $request, SeoPageInterface $seoPage)
     {
         //var_dump($this->getParameter('app.path.user_images'));
         $session = $request->getSession();
@@ -34,9 +36,14 @@ class HomeController extends AbstractController
 
         $response = $client->request('GET', $API2);
         $data = $response->getBody();
-        $data = json_decode($data);
+        $data =
+            json_decode($data);
 
         $session->set('data', $data[0]);
+
+        $seoPage
+            ->setTitle("My best quotes - The best and most beautiful things in the world cannot be seen or even touched ")
+            ->addMeta('name', 'description', "Best Quotes - " . $data[0]->content);
 
         return $this->render(
             'home/index.html.twig',
@@ -50,27 +57,37 @@ class HomeController extends AbstractController
      * @Route("/saveQuote", name="home_saveQuote")
      * @IsGranted("ROLE_USER")
      */
-    public function saveQuote(Request $request, ObjectManager $manager)
+    public function saveQuote(Request $request, ObjectManager $manager, ValidatorInterface $validator)
     {
         $session = $request->getSession();
         $quote = new Quote();
         $data = $session->get('data');
         $source = (isset($data->source)) ? $data->source : null;
-
         $quote->setContent($data->content)
             ->setAuthor($data->title)
             ->setUser($this->getUser())
             ->setSource($source);
 
-        $manager->persist($quote);
-        $manager->flush();
+        $errors = $validator->validate($quote);
 
-        $this->addFlash(
-            'success',
-            "The addition of your quote has been successfully registered."
-        );
+        if (count($errors) > 0) {
+            $this->addFlash(
+                'danger',
+                "Another quote already has this content."
+            );
+            return $this->redirectToRoute('home_index');
+        } else {
 
-        return $this->redirectToRoute('account_index');
+            $manager->persist($quote);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "The addition of your quote has been successfully registered."
+            );
+
+            return $this->redirectToRoute('account_index');
+        }
     }
 
     /**
@@ -90,7 +107,7 @@ class HomeController extends AbstractController
         return $this->redirectToRoute("account_index");
     }
 
-   /**
+    /**
      * @Route("/quote/new", name="home_addQuote")
      * @IsGranted("ROLE_USER")
      */
@@ -105,27 +122,21 @@ class HomeController extends AbstractController
             $user = $this->getUser();
 
             $quote
-            ->setAuthor($user->getFullname())
-            ->setUser($user)
-            ;
+                ->setAuthor($user->getFullname())
+                ->setUser($user);
 
-        $manager->persist($quote);
-        $manager->flush();
+            $manager->persist($quote);
+            $manager->flush();
 
-        $this->addFlash(
-            'success',
-            "The addition of your quote has been successfully registered."
-        );
-                return $this->redirectToRoute('account_index');
-            
+            $this->addFlash(
+                'success',
+                "The addition of your quote has been successfully registered."
+            );
+            return $this->redirectToRoute('account_index');
         }
 
         return $this->render('account/add-quote.html.twig', [
             'form' => $form->createView(),
         ]);
-
-        
     }
-
-
 }

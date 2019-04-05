@@ -347,3 +347,17 @@ h1 .bigger {
     margin-left: 16px;
 }
 }
+
+.half-rule { 
+    /*
+    width: 50%;
+    border-top: 1px dotted grey;
+*/
+    text-align: center;
+    margin: 0 auto;
+    border: 0;
+    height: 55px;
+    background-image: url(../images/img/hr_1.png);
+    background-repeat: no-repeat;
+ }
+ 

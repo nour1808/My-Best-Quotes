@@ -2,14 +2,8 @@
     "behat/transliterator": {
         "version": "v1.2.0"
     },
-    "clue/stream-filter": {
-        "version": "v1.4.0"
-    },
     "cocur/slugify": {
         "version": "v3.2"
-    },
-    "cspoo/swiftmailer-mailgun-bundle": {
-        "version": "1.2.0"
     },
     "doctrine/annotations": {
         "version": "1.0",
@@ -172,17 +166,11 @@
     "jms/metadata": {
         "version": "2.0.0"
     },
-    "mailgun/mailgun-php": {
-        "version": "2.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "2.3",
-            "ref": "d3188b6cdc58f877ef2884b55ac4798640b4b9be"
-        },
-        "files": [
-            "./config/packages/mailgun.yaml"
-        ]
+    "knplabs/knp-components": {
+        "version": "v1.3.10"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v3.0.0"
     },
     "monolog/monolog": {
         "version": "1.24.0"
@@ -195,27 +183,6 @@
     },
     "pagerfanta/pagerfanta": {
         "version": "v2.1.1"
-    },
-    "php-http/client-common": {
-        "version": "1.9.1"
-    },
-    "php-http/discovery": {
-        "version": "1.6.1"
-    },
-    "php-http/httplug": {
-        "version": "v1.1.0"
-    },
-    "php-http/message": {
-        "version": "1.7.2"
-    },
-    "php-http/message-factory": {
-        "version": "v1.0.2"
-    },
-    "php-http/multipart-stream-builder": {
-        "version": "1.0.0"
-    },
-    "php-http/promise": {
-        "version": "v1.0.0"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -258,6 +225,12 @@
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "sonata-project/exporter": {
+        "version": "2.0.1"
+    },
+    "sonata-project/seo-bundle": {
+        "version": "2.7.0"
     },
     "swiftmailer/swiftmailer": {
         "version": "v6.2.0"
