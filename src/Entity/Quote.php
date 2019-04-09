@@ -4,9 +4,16 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\QuoteRepository")
+ * 
+ * @UniqueEntity(
+ *     fields={"content"},
+ *     message="Another quote already has this content."
+ * )
  */
 class Quote
 {
@@ -19,6 +26,12 @@ class Quote
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(
+     *  min = 20,
+     *  max = 500,
+     *  minMessage = "The quote must have more than {{ limit }} characters",
+     *  maxMessage = "The quote should have less  {{ limit }} characters"
+     * )
      */
     private $content;
 
@@ -103,7 +116,7 @@ class Quote
         return $this;
     }
 
-    
+
 
     public function getAuthor(): ? string
     {
@@ -123,4 +136,3 @@ class Quote
         return $this->getAuthor();
     }
 }
-

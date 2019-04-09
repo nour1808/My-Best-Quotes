@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Quote;
 use App\Form\AccountType;
 use App\Entity\ResetPassword;
 use App\Entity\PasswordUpdate;
@@ -12,6 +13,7 @@ use App\Form\ResetPasswordType;
 use App\Form\PasswordUpdateType;
 use App\Repository\UserRepository;
 use Symfony\Component\Form\FormError;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -317,10 +319,17 @@ class AccountController extends AbstractController
      * @Route("/account", name="account_index")
      * @IsGranted("ROLE_USER")
      */
-    public function myAccount()
+    public function myAccount(Request $request, PaginatorInterface $paginator)
     {
+        $pagination = $paginator->paginate(
+            $this->getUser()->getQuotes(), /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render('user/index.html.twig', [
-            'user' => $this->getUser()
+            'user' => $this->getUser(),
+            'pagination' => $pagination
         ]);
     }
 }

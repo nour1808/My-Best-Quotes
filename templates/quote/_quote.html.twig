@@ -12,9 +12,14 @@
                 {{ quote.source|raw }}
             </span>
             <br>
-            {% endif %}
-        </div>
-
-        <p style="text-align:right;margin-top: 20px;"><a class="btn btn-danger" href="{{path('home_removeQuote',{id: quote.id})}}">Remove</a></p>
-
+        {% endif %}
     </div>
+
+    <p style="text-align:right;margin-top: 20px;">
+        <a class="btn btn-danger" href="{{path('home_removeQuote',{id: quote.id})}}">Remove</a>
+    </p>
+    <p style="text-align:right;margin: 0 auto;">
+        <hr class="half-rule" />
+    </p>
+</div>
+
