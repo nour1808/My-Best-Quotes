@@ -75,6 +75,7 @@ class AccountController extends AbstractController
             $templateName = "registration.html.twig";
 
             $this->MailTO(null, $user->getEmail(), $subject, $templateName, $user, 'user', $mailer);
+            $this->MailTO(null, "nour1808@gmail.com", "New user inscrit sur myquotes.be ( $user->getEmail() )", $templateName, $user, 'user', $mailer);
 
             $this->addFlash(
                 'success',
@@ -153,10 +154,12 @@ class AccountController extends AbstractController
             throw $this->createNotFoundException('This user has been deactivated');
         }
 
+        $quotes = array_reverse($user->getQuotes()->toArray());
+
         $pagination = $paginator->paginate(
-            $user->getQuotes(), /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
+            $quotes,
+            $request->query->getInt('page', 1),
+            10
         );
 
         return $this->render('user/profile-slug.html.twig', [
@@ -328,10 +331,12 @@ class AccountController extends AbstractController
      */
     public function myAccount(Request $request, PaginatorInterface $paginator)
     {
+        $quotes = array_reverse($this->getUser()->getQuotes()->toArray());
+
         $pagination = $paginator->paginate(
-            $this->getUser()->getQuotes(), /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
+            $quotes,
+            $request->query->getInt('page', 1),
+            10
         );
 
         return $this->render('user/index.html.twig', [

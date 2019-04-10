@@ -17,6 +17,7 @@ easy_admin:
                     
                     - { type: 'group', columns: 2 , label: 'Contact Information', icon: 'envelope-o', css_class: 'col-6' }
                     - { property: 'email' }
+                    - { property: 'gender' , type: 'choice', type_options: { choices: { 'Male': 'male', 'Female': 'female' } } }
                     - { property: 'isActif', label : 'Enabled'  }
 
                     - { type: 'group', columns: 2 , label: 'Picture file', icon: 'briefcase', css_class: 'col-6' }
