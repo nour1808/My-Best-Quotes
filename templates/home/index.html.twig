@@ -2,7 +2,7 @@
 {% block title %}To live well with your favorite quotes
 {% endblock %}
 {% block body %}
-    <div class="post">
+    <div class="post mb-5">
         <div id="quote-content">
             {{ data.content|raw }}
         </div>
@@ -13,12 +13,73 @@
             {% if data.custom_meta is defined %}
                 <span id="quote-source">Source:
                     {{ data.custom_meta.Source|raw }}
-                </span>                   
-                </p>
-            {% endif %}
-            <br>
-            {% if app.user %}
-            <p style="margin:0 auto;text-align:center"><a class="btn btn-success" href="{{path('home_saveQuote')}}">Save this quote</a></p>
+                </span>
+            </p>
         {% endif %}
+        <br>
+        {% if app.user %}
+            <p style="margin:0 auto;text-align:center">
+                <a class="btn btn-success" href="{{path('home_saveQuote')}}">Save this quote</a>
+            </p>
+        {% endif %}
+
+        <div class="text-center mt-5 mb-5">
+            <hr class="">
         </div>
-    {% endblock %}
+
+        <h2 class="title text-center mt-5 mb-5">
+            MOST POPULAR
+            <span class="badge badge-secondary">
+                QUOTERS
+            </span>
+        </h2>
+        <div class="text-center mb-5">
+            <a class="btn btn-info" href="{{ path('account_register') }}">
+                <strong>I want to come a Quoter</strong>
+            </a>
+        </div>
+        {% for bUser in pagination %}
+            <div class="card mt-2 mb-3">
+                <div class="card-header">
+                    <a class="" href="{{ path('account_profile_slug' , {'slug' : bUser.slug}) }}">
+                        <strong>{{ bUser.fullname }}</strong>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <div class="media">
+                            <a class="" href="{{ path('account_profile_slug' , {'slug' : bUser.slug}) }}">
+                                <img class="rounded-circle mx-3 mt-4" alt="{{ bUser.fullname }}" style="width:95px;" class="mr-3" src="{{ vich_uploader_asset(bUser, 'pictureFile') }}">
+                            </a>
+                            <div class="media-body">
+                                {{ bUser.quotes[0].content|raw }}
+                                <footer class="blockquote-footer mb-3">
+                                    <cite title="{{ bUser.quotes[0].author }}">{{ bUser.quotes[0].author }}</cite>
+                                </footer>
+                            </div>
+                        </div>
+                    </blockquote>
+
+                    <div class="text-center">
+                        <button class="btn btn-primary" type="button">
+                            <span class="badge badge-light">{{ bUser.quotes| length }}</span>
+                            Quotes
+                        </button>
+                        <a class="btn btn-success" href="{{ path('account_profile_slug' , {'slug' : bUser.slug}) }}">View quotes
+                            <b>{{ bUser.fullname }}</b>
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+
+        {% endfor %}
+
+
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+    </div>
+{% endblock %}

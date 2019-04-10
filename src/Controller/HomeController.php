@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Quote;
 use GuzzleHttp\Client;
 use App\Form\AddQuoteType;
+use App\Repository\UserRepository;
 use Sonata\SeoBundle\Seo\SeoPageInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,7 +24,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home_index")
      */
-    public function index(Request $request, SeoPageInterface $seoPage)
+    public function index(Request $request, SeoPageInterface $seoPage, PaginatorInterface $paginator, UserRepository $user)
     {
         //var_dump($this->getParameter('app.path.user_images'));
         $session = $request->getSession();
@@ -41,6 +43,14 @@ class HomeController extends AbstractController
 
         $session->set('data', $data[0]);
 
+        //dump($user->findBestUsers());die;
+
+        $pagination = $paginator->paginate(
+            $user->findBestUsers(),
+            $request->query->getInt('page', 1),
+            5
+        );
+
         $seoPage
             ->setTitle("My best quotes - The best and most beautiful things in the world cannot be seen or even touched ")
             ->addMeta('name', 'description', "Best Quotes - " . $data[0]->content);
@@ -49,9 +59,11 @@ class HomeController extends AbstractController
             'home/index.html.twig',
             [
                 'data' => $data[0],
+                'pagination' => $pagination
             ]
         );
     }
+
 
     /**
      * @Route("/saveQuote", name="home_saveQuote")
