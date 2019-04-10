@@ -1,2 +1,2 @@
 # mybestquotes
-projet created by symfony framwork for the quotes
+Projet created by symfony 4 framwork for the quotes
