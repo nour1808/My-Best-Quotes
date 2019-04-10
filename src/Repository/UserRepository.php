@@ -46,7 +46,7 @@ class UserRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('u')
             //->select( 'u as user ,  COUNT(q) as countQuotes ')
             ->join('u.quotes', 'q')
-            ->having( ' COUNT(q) > 1')
+            ->having( ' COUNT(q) > 5')
             ->groupBy('u')
             ->orderBy( ' COUNT(q)', 'DESC')
             ->getQuery()

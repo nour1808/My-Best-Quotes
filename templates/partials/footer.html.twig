@@ -3,16 +3,16 @@
         Get another quote
     </a>
     {% if app.user %}
-    <a  href="{{ path('account_index') }}" id="get-another-quote-button">
-        My account
-    </a>
-    <a  href="{{ path('account_logout') }}" id="get-another-quote-button">
-        logout
-    </a>
-     {% else %}
-         <a  href="{{ path('account_login') }}" id="get-another-quote-button">
-        login
-    </a>
+        <a href="{{ path('account_index') }}" id="get-another-quote-button">
+            My account
+        </a>
+        <a href="{{ path('account_logout') }}" id="get-another-quote-button">
+            logout
+        </a>
+    {% else %}
+        <a href="{{ path('account_login') }}" id="get-another-quote-button">
+            login
+        </a>
     {% endif %}
 </div>
 <div id="footer">
@@ -21,9 +21,13 @@
         <a href="https://berjaoui.be" target="_blank">Noureddine Berjaoui</a>
     </div>
     <div class="footer-right">
-        <a href="https://berjaoui.be">Portefolio</a>
+        <a href="https://berjaoui.be">Portefolio</a>|
         <a href="{{ path('home_addQuote') }}/">Submit a Quote</a>
     </div>
 </div>
-<script src="" type="text/javascript"></script></div><div id="shadowMeasureIt"></div><div id="divCoordMeasureIt"></div><div id="divRectangleMeasureIt">
+<script src="" type="text/javascript">
+
+
+
+</script></div><div id="shadowMeasureIt"></div><div id="divCoordMeasureIt"></div><div id="divRectangleMeasureIt">
 <div id="divRectangleBGMeasureIt"></div></div></body></html>

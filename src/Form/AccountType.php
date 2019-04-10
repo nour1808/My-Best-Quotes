@@ -19,7 +19,7 @@ class AccountType extends ApplicationType
             ->add('firstName')
             ->add('lastName')
             ->add('email')
-            ->add('pictureFile', VichImageType::class, $this->getConfiguration('Profile picture', 'Choose your profile picture'))
+            ->add('pictureFile', VichImageType::class, $this->getConfiguration('Profile picture', 'Choose your profile picture', ['required' => false]))
             //->add('hash')
             ->add('gender', ChoiceType::class, $this->getConfiguration('Gender', 'Your gender', ['choices'  => ['Male' => 'male', 'Female' => 'female']]))
             //->add('slug')

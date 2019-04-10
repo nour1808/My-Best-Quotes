@@ -35,7 +35,7 @@
         </h2>
         <div class="text-center mb-5">
             <a class="btn btn-info" href="{{ path('account_register') }}">
-                <strong>I want to come a Quoter</strong>
+                <strong>I would like to become a Quoter</strong>
             </a>
         </div>
         {% for bUser in pagination %}
@@ -49,7 +49,7 @@
                     <blockquote class="blockquote mb-0">
                         <div class="media">
                             <a class="" href="{{ path('account_profile_slug' , {'slug' : bUser.slug}) }}">
-                                <img class="rounded-circle mx-3 mt-4" alt="{{ bUser.fullname }}" style="width:95px;" class="mr-3" src="{{ vich_uploader_asset(bUser, 'pictureFile') }}">
+                                <img class="rounded-circle mx-2 mt-2" alt="{{ bUser.fullname }}" style="width:95px;" class="mr-3" src="{{ vich_uploader_asset(bUser, 'pictureFile') }}">
                             </a>
                             <div class="media-body">
                                 {{ bUser.quotes[0].content|raw }}
