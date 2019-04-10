@@ -20,6 +20,7 @@
 .web-server-pid
 ###< symfony/web-server-bundle ###
 
+README.md
 
 .idea/*
 
