@@ -33,6 +33,11 @@
                 QUOTERS
             </span>
         </h2>
+        <div class="text-center mb-5">
+            <a class="btn btn-info" href="{{ path('account_register') }}">
+                <strong>I want to come a Quoter</strong>
+            </a>
+        </div>
         {% for bUser in pagination %}
             <div class="card mt-2 mb-3">
                 <div class="card-header">
@@ -70,6 +75,7 @@
             </div>
 
         {% endfor %}
+
 
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
