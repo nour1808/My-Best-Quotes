@@ -1,6 +1,8 @@
-$(document).ready (function(){
+$(document).ready(function () {
 
-$(".alert" ).click(function() {
-  $( this ).fadeOut('slow');
-});
+  $(".alert").click(function () {
+    $(this).fadeOut('slow');
+  });
+
+  $('[data-toggle="tooltip"]').tooltip();
 });

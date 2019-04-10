@@ -7,9 +7,10 @@
         <div class="row align-items-center mb-6">
             <div class="col-3 mb-3 text-center">
                 <img src="{{ vich_uploader_asset(user, 'pictureFile') }}" class="avatar mb-3" alt="Avatar de {{user.fullName}} " /><br>
-                <span class="badge badge-primary">
-                    {{ user.quotes| length }}
-                    quotes</span>
+                <button class="btn btn-primary" type="button">
+                    <span class="badge badge-light">{{ user.quotes| length }}</span>
+                    Quotes
+                </button>
             </div>
             <div class="col-9 mb-3">
                 <h1>
@@ -18,13 +19,18 @@
 
             </div>
             <hr></div>
-        <h2 class="text-center my-6 mb-3">The quotes loved by
-            <b>
-                {{user.fullName}}</b>
-        </h2>
+        <div class="card">
+            <div class="card-body">
+                <h2 class="text-center my-6 mb-3">The quotes loved by :
+                    <b>
+                        {{user.fullName}}</b>
+                </h2>
+            </div>
+        </div>
+
         {% if user.quotes | length > 0 %}
             <div class="row">
-                {% for quote in user.quotes|sort|reverse %}
+                {% for quote in pagination|sort|reverse %}
                     {% include "quote/_quote.html.twig" %}
                 {% endfor %}
             </div>
@@ -37,5 +43,9 @@
                 </p>
             </div>
         {% endif %}
+
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
     </div>
 {% endblock %}

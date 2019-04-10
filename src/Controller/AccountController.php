@@ -147,14 +147,21 @@ class AccountController extends AbstractController
     /**
      * @Route("/quotes/{slug}", name="account_profile_slug")
      */
-    public function showProfile(User $user)
+    public function showProfile(User $user, Request $request, PaginatorInterface $paginator)
     {
         if (!$user) {
             throw $this->createNotFoundException('This user has been deactivated');
         }
 
+        $pagination = $paginator->paginate(
+            $user->getQuotes(), /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render('user/profile-slug.html.twig', [
             'user' => $user,
+            'pagination' => $pagination
         ]);
     }
 
