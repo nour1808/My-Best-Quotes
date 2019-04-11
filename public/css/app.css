@@ -346,6 +346,12 @@ h1 .bigger {
     right: 0% !important;
     margin-left: 16px;
 }
+.half-rule{
+  display: none !important;
+}
+.post{
+  width : 90% !important;
+}
 }
 
 .half-rule { 
