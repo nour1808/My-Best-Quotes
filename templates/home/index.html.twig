@@ -4,12 +4,12 @@
 {% block body %}
     <div class="post mb-5">
         <div id="quote-content">
-            {{ data.content|raw }}
+            {{ data.content.rendered|raw }}
         </div>
         <p class="author">
             <span id="quote-title-dash">—</span>
             <span id="quote-title">
-                {{ data.title }}</span>
+                {{ data.title.rendered }}</span>
             {% if data.custom_meta is defined %}
                 <span id="quote-source">Source:
                     {{ data.custom_meta.Source|raw }}

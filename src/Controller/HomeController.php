@@ -26,25 +26,22 @@ class HomeController extends AbstractController
      */
     public function index(Request $request, SeoPageInterface $seoPage, PaginatorInterface $paginator, UserRepository $user)
     {
-        //var_dump($this->getParameter('app.path.user_images'));
         $session = $request->getSession();
-
-        $API = "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=3";
-        $API2 = "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand";
+        $API = "http://quotesondesign.com/wp-json/wp/v2/posts/?orderby=rand";
 
         $client = new Client([
             'headers' => ['Content-type' => 'application/json', 'Accept' => 'application/json']
         ]);
 
-        $response = $client->request('GET', $API2);
+        $response = $client->request('GET', $API);
         $data = $response->getBody();
         $data =
             json_decode($data);
+        $rand = array_rand($data,1);
+        //var_dump(array_rand($data,1));die;
 
-        $session->set('data', $data[0]);
-
-        //dump($user->findBestUsers());die;
-
+        $session->set('data', $data[$rand]);
+        
         $pagination = $paginator->paginate(
             $user->findBestUsers(),
             $request->query->getInt('page', 1),
@@ -53,12 +50,12 @@ class HomeController extends AbstractController
 
         $seoPage
             ->setTitle("My best quotes - The best and most beautiful things in the world cannot be seen or even touched ")
-            ->addMeta('name', 'description', "Best Quotes - " . $data[0]->content);
+            ->addMeta('name', 'description', "Best Quotes - " . $data[$rand]->content->rendered);
 
         return $this->render(
             'home/index.html.twig',
             [
-                'data' => $data[0],
+                'data' => $data[$rand],
                 'pagination' => $pagination
             ]
         );
@@ -75,8 +72,8 @@ class HomeController extends AbstractController
         $quote = new Quote();
         $data = $session->get('data');
         $source = (isset($data->source)) ? $data->source : null;
-        $quote->setContent($data->content)
-            ->setAuthor($data->title)
+        $quote->setContent($data->content->rendered)
+            ->setAuthor($data->title->rendered)
             ->setUser($this->getUser())
             ->setSource($source);
 

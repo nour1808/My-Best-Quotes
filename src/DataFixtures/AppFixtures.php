@@ -70,23 +70,20 @@ class AppFixtures extends Fixture
 
         //Gestion des Quotes  
         for ($j = 0; $j < 10; $j++) {
-
-            $API = "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=3";
-            $API2 = "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand";
-
+            $API = "http://quotesondesign.com/wp-json/wp/v2/posts/?orderby=rand";
             $client = new Client([
                 'headers' => ['Content-type' => 'application/json', 'Accept' => 'application/json']
             ]);
 
-            $response = $client->request('GET', $API2);
+            $response = $client->request('GET', $API);
             $data = $response->getBody();
             $data = json_decode($data);
             $data = $data[0];
             $source = (isset($data->custom_meta)) ? $source = $data->custom_meta->Source : null;
 
             $quote = new Quote();
-            $title = $data->title;
-            $content = $data->content;
+            $title = $data->title->rendered;
+            $content = $data->content->rendered;
             $source = $source;
             $authorQuote = $data->title;
             $userQuote = $users[mt_rand(0, count($users) - 1)];
@@ -94,7 +91,7 @@ class AppFixtures extends Fixture
             $quote->setContent($content)
                 ->setSource($source)
                 ->setUser($userQuote)
-                ->setAuthor($authorQuote)
+                ->setAuthor($authorQuote->rendered)
                 ->setCreatedAt($faker->dateTimeBetween('-8 months'));
 
             $manager->persist($quote);
